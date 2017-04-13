@@ -10,14 +10,18 @@ class CalculationsController < ApplicationController
     # The special word the user input is in the string @special_word.
     # ================================================================================
 
+    downcase_text = @text.downcase
+    downcase_text_without_punctuation = downcase_text.gsub(/[^a-z0-9\s]/i, '')
+    downcase_text_split_into_array = downcase_text.split
+    downcase_text_without_punctuation_split_into_array = downcase_text_without_punctuation.split
 
-    @word_count = "Replace this string with your answer."
+    @word_count = downcase_text_split_into_array.size
 
-    @character_count_with_spaces = "Replace this string with your answer."
+    @character_count_with_spaces = @text.size
 
-    @character_count_without_spaces = "Replace this string with your answer."
+    @character_count_without_spaces = @text.size-@text.count(" ")
 
-    @occurrences = "Replace this string with your answer."
+    @occurrences = downcase_text_without_punctuation_split_into_array.count(@special_word.downcase)
 
     # ================================================================================
     # Your code goes above.
@@ -37,8 +41,10 @@ class CalculationsController < ApplicationController
     # The number of years the user input is in the integer @years.
     # The principal value the user input is in the decimal @principal.
     # ================================================================================
+    monthly_apr = @apr/12
+    monthly_periods = @years*12
 
-    @monthly_payment = "Replace this string with your answer."
+    @monthly_payment = (@principal*monthly_apr/100)/(1-(1+monthly_apr/100)**-monthly_periods)
 
     # ================================================================================
     # Your code goes above.
@@ -60,12 +66,12 @@ class CalculationsController < ApplicationController
     #   number of seconds as a result.
     # ================================================================================
 
-    @seconds = "Replace this string with your answer."
-    @minutes = "Replace this string with your answer."
-    @hours = "Replace this string with your answer."
-    @days = "Replace this string with your answer."
-    @weeks = "Replace this string with your answer."
-    @years = "Replace this string with your answer."
+    @seconds = @ending-@starting
+    @minutes = @seconds/60
+    @hours = @minutes/60
+    @days = @hours/24
+    @weeks = @days/7
+    @years = @days/365.25
 
     # ================================================================================
     # Your code goes above.
@@ -82,27 +88,41 @@ class CalculationsController < ApplicationController
     # The numbers the user input are in the array @numbers.
     # ================================================================================
 
-    @sorted_numbers = "Replace this string with your answer."
+    array = @numbers
+    def median(array)
+      sorted = array.sort
+      len = sorted.length
+      (sorted[(len - 1) / 2] + sorted[len / 2]) / 2.0
+    end
 
-    @count = "Replace this string with your answer."
+    @sorted_numbers = @numbers.sort
 
-    @minimum = "Replace this string with your answer."
+    @count = @numbers.count
 
-    @maximum = "Replace this string with your answer."
+    @minimum = @numbers.min
 
-    @range = "Replace this string with your answer."
+    @maximum = @numbers.max
 
-    @median = "Replace this string with your answer."
+    @range = @numbers.max-@numbers.min
 
-    @sum = "Replace this string with your answer."
+    @median = median(array)
 
-    @mean = "Replace this string with your answer."
+    @sum = @numbers.sum
 
-    @variance = "Replace this string with your answer."
+    @mean = @numbers.sum/@numbers.length
 
-    @standard_deviation = "Replace this string with your answer."
+    squared_numbers = []
+    @numbers.each do |num|
+      square = num * num
+      squared_numbers.push(square)
+    end
 
-    @mode = "Replace this string with your answer."
+    @variance = squared_numbers.sum/@numbers.length - @mean**2
+
+    @standard_deviation = @variance**2
+
+    @mode = "xxx"
+
 
     # ================================================================================
     # Your code goes above.
