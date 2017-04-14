@@ -117,12 +117,25 @@ class CalculationsController < ApplicationController
       squared_numbers.push(square)
     end
 
-    @variance = squared_numbers.sum/@numbers.length - @mean**2
+    @variance = (squared_numbers.sum/@numbers.length - @mean**2)
 
-    @standard_deviation = @variance**2
+    @standard_deviation = @variance**0.5
 
-    @mode = "xxx"
-
+    # calculating mode
+    unique_numbers = @numbers.uniq
+    unique_numbers_occurrence = []
+    unique_numbers.each do |num|
+      unique_numbers_occurrence.push(@numbers.count(num))
+    end
+    most_occurrences = unique_numbers_occurrence.max
+    mode = []
+    unique_numbers.each do |num|
+      if @numbers.count(num) == most_occurrences
+        then mode.push(num)
+      else
+      end
+    end
+    @mode = mode
 
     # ================================================================================
     # Your code goes above.
